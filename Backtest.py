@@ -987,7 +987,7 @@ def run_full_backtest():
     """Run your blackarb.py strategy against S&P 500 with full analysis"""
     
     print("="*80)
-    print("🚀 STATISTICAL ARBITRAGE STRATEGY BACKTEST")
+    print(" STATISTICAL ARBITRAGE STRATEGY BACKTEST")
     print("Testing your blackarb.py strategy vs S&P 500 Buy & Hold")
     print("="*80)
     
@@ -998,7 +998,7 @@ def run_full_backtest():
     START_DATE = '2021-08-01'       # Backtest start date
     END_DATE = '2025-08-01'         # Backtest end date
     
-    print(f"📊 Configuration:")
+    print(f" Configuration:")
     print(f"   • Initial Capital: ${INITIAL_CAPITAL:,}")
     print(f"   • Max Position Size: {MAX_POSITION_SIZE*100}% per trade")
     print(f"   • Max Concurrent Trades: {MAX_CONCURRENT_TRADES}")
@@ -1020,13 +1020,13 @@ def run_full_backtest():
     )
     
     if not success:
-        print("❌ Backtest failed")
+        print("Backtest failed")
         return None
     
     # Analyze results
     results = backtester.analyze_results()
     if results is None:
-        print("❌ No results to analyze")
+        print(" No results to analyze")
         return None
     
     # Print comprehensive summary
@@ -1040,20 +1040,20 @@ def run_full_backtest():
     
     # Print key takeaways
     print("\n" + "="*80)
-    print("🎯 KEY TAKEAWAYS:")
+    print(" KEY TAKEAWAYS:")
     print("="*80)
     
     strategy_return = results['total_return']
     benchmark_return = results['benchmark_total_return']
     
     if strategy_return > benchmark_return:
-        print(f"🎉 Your strategy OUTPERFORMED the S&P 500!")
-        print(f"   📈 Strategy: {strategy_return:.1f}% vs S&P 500: {benchmark_return:.1f}%")
-        print(f"   💰 Excess return: +{strategy_return - benchmark_return:.1f}%")
+        print(f" Your strategy OUTPERFORMED the S&P 500!")
+        print(f"   Strategy: {strategy_return:.1f}% vs S&P 500: {benchmark_return:.1f}%")
+        print(f"    Excess return: +{strategy_return - benchmark_return:.1f}%")
     else:
-        print(f"📊 Your strategy underperformed the S&P 500")
-        print(f"   📈 Strategy: {strategy_return:.1f}% vs S&P 500: {benchmark_return:.1f}%")
-        print(f"   📉 Shortfall: {strategy_return - benchmark_return:.1f}%")
+        print(f" Your strategy underperformed the S&P 500")
+        print(f"    Strategy: {strategy_return:.1f}% vs S&P 500: {benchmark_return:.1f}%")
+        print(f"   Shortfall: {strategy_return - benchmark_return:.1f}%")
     
     print(f"\n💼 Trade Performance:")
     print(f"   • Total trades executed: {results['total_trades']}")
@@ -1062,7 +1062,7 @@ def run_full_backtest():
     print(f"   • Best trade: ${results['trades_df']['final_pnl'].max():.2f}" if not results['trades_df'].empty else "   • No trades executed")
     print(f"   • Worst trade: ${results['trades_df']['final_pnl'].min():.2f}" if not results['trades_df'].empty else "")
     
-    print(f"\n📊 Risk Metrics:")
+    print(f"\n Risk Metrics:")
     print(f"   • Strategy volatility: {results['volatility']:.1f}%")
     print(f"   • S&P 500 volatility: {results['benchmark_volatility']:.1f}%")
     print(f"   • Max drawdown: {results['max_drawdown']:.1f}%")
