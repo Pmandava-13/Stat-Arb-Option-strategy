@@ -80,7 +80,7 @@ class sp500arbscan:
         self.price_data = filtered_prices
         print(f"Filtered to {counter} movers.")
         return counter
-# aug 02 /2025 - i sorted out through the stocks in the snp500 to find stocks that have moved over 30% in either direction in a year and stored them in sp500_symbols
+# sort movers
 
 
 
