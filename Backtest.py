@@ -38,13 +38,13 @@ class StatArbOptionsBacktester:
         df = tables[0]  # find table 
         symbols = df['Symbol'].tolist()
         
-        # Replace '.' with '-' for yfinance compatibility
+        
         symbols = [symbol.replace('.', '-') for symbol in symbols]
         print(f"Found {len(symbols)} S&P 500 symbols")
         return symbols
         
     def get_historical_sp500_data(self, start_date, end_date, min_move=0.40):
-        """Get historical S&P 500 data for backtesting using Wikipedia symbols"""
+        ""Get historical S&P 500 data for backtesting using Wikipedia symbols""
         print(f"Fetching S&P 500 data from {start_date} to {end_date}...")
         
         # Get S&P 500 symbols from Wikipedia (like your strategy)
@@ -67,7 +67,7 @@ class StatArbOptionsBacktester:
                     print(f"No data returned for batch {batch}")
                     continue
                 
-                # Handle MultiIndex columns from yfinance
+                # handle multi index columns from yfinance
                 if hasattr(data.columns, 'levels'):  # MultiIndex columns
                     # Look for Close prices
                     for symbol in batch:
@@ -205,7 +205,7 @@ class StatArbOptionsBacktester:
         
         # Create DataFrame and calculate correlations (same as your find_correlated_pairs_optimized)
         df = pd.DataFrame(lookback_data).dropna()
-        if len(df) < 50:  # Need sufficient observations
+        if len(df) < 50:  # Need enough observations
             return opportunities
         
         correlations = df.corr()
@@ -599,49 +599,49 @@ class StatArbOptionsBacktester:
             print("No results to analyze")
             return None
         
-        # Portfolio performance
+        # portfolio performance
         portfolio_series = pd.Series(self.portfolio_value, index=self.portfolio_dates)
         benchmark_series = pd.Series(self.benchmark_values, index=self.benchmark_dates)
         
-        # Align dates for comparison
+        # align dates for comparison
         common_dates = portfolio_series.index.intersection(benchmark_series.index)
         portfolio_aligned = portfolio_series.loc[common_dates]
         benchmark_aligned = benchmark_series.loc[common_dates]
         
-        # Calculate metrics for portfolio
+        # calculate metrics for portfolio
         total_return = (portfolio_aligned.iloc[-1] / self.initial_capital - 1) * 100
         years = len(portfolio_aligned) / 252
         annual_return = ((portfolio_aligned.iloc[-1] / self.initial_capital) ** (1/years) - 1) * 100
         
-        # Portfolio volatility and Sharpe
+        # portfolio volatility and Sharpe
         portfolio_returns = portfolio_aligned.pct_change().dropna()
         volatility = portfolio_returns.std() * np.sqrt(252) * 100
         sharpe = (annual_return - 5) / volatility if volatility > 0 else 0
         
-        # Portfolio drawdown
+        # portfolio drawdown
         cummax = portfolio_aligned.cummax()
         drawdown = (portfolio_aligned - cummax) / cummax
         max_drawdown = drawdown.min() * 100
         
-        # Calculate metrics for benchmark
+        # calculate metrics for benchmark
         benchmark_total_return = (benchmark_aligned.iloc[-1] / self.initial_capital - 1) * 100
         benchmark_annual_return = ((benchmark_aligned.iloc[-1] / self.initial_capital) ** (1/years) - 1) * 100
         
-        # Benchmark volatility and Sharpe
+        # benchmark volatility and sharpe
         benchmark_returns = benchmark_aligned.pct_change().dropna()
         benchmark_volatility = benchmark_returns.std() * np.sqrt(252) * 100
         benchmark_sharpe = (benchmark_annual_return - 5) / benchmark_volatility if benchmark_volatility > 0 else 0
         
-        # Benchmark drawdown
+        # benchmark drawdown
         benchmark_cummax = benchmark_aligned.cummax()
         benchmark_drawdown = (benchmark_aligned - benchmark_cummax) / benchmark_cummax
         benchmark_max_drawdown = benchmark_drawdown.min() * 100
         
-        # Calculate outperformance metrics
+        # calculate outperformance metrics
         excess_return = annual_return - benchmark_annual_return
         information_ratio = excess_return / volatility if volatility > 0 else 0
         
-        # Beta calculation
+        # beta calculation
         if len(portfolio_returns) > 1 and len(benchmark_returns) > 1:
             covariance = np.cov(portfolio_returns.values, benchmark_returns.values)[0, 1]
             benchmark_variance = np.var(benchmark_returns.values)
@@ -649,7 +649,7 @@ class StatArbOptionsBacktester:
         else:
             beta = 1
         
-        # Trade analysis
+        # trade analysis
         trades_df = pd.DataFrame(self.completed_trades)
         if not trades_df.empty:
             winning_trades = len(trades_df[trades_df['final_pnl'] > 0])
@@ -1013,7 +1013,7 @@ def run_full_backtest():
     )
     
     # Run backtest
-    print("🔄 Starting backtest... (this may take 3-5 minutes)")
+    print(" Starting backtest... (this may take 3-5 minutes)")
     success = backtester.run_backtest(
         start_date=START_DATE,
         end_date=END_DATE
@@ -1055,7 +1055,7 @@ def run_full_backtest():
         print(f"    Strategy: {strategy_return:.1f}% vs S&P 500: {benchmark_return:.1f}%")
         print(f"   Shortfall: {strategy_return - benchmark_return:.1f}%")
     
-    print(f"\n💼 Trade Performance:")
+    print(f"\n Trade Performance:")
     print(f"   • Total trades executed: {results['total_trades']}")
     print(f"   • Win rate: {results['win_rate']:.1f}%")
     print(f"   • Profit factor: {results['profit_factor']:.2f}")
